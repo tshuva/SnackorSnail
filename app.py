@@ -1,8 +1,10 @@
+
+
 import random
 
-
-# A single node of a singly linked list
 class Node:
+    """ A single node of a singly linked list """
+
     def __init__(self, data=None, next_node=None):
         self.data = data
         self.next = next_node
@@ -28,43 +30,14 @@ class List:
         else:
             self.head = new_node
 
-    def print_snake(self):
-        """ print method for the snake list """
-
-        print("SNAKE LIST:")
-
-        current = self.head
-        while current:
-            print(current.data)
-            current = current.next
-
-    def print_snail(self, start_of_loop):
-        """ print method for the snail list """
-
-        print("SNAIL LIST:")
-        current = self.head
-        reached_loop = False
-
-        # Go through list until reaching start of loop for the second time
-        while not (current == start_of_loop and reached_loop):
-            print(current.data)
-            if current == start_of_loop:
-                reached_loop = True
-                print("Start of loop above")
-            current = current.next
-
-        print(current.data)  # Print start of loop again to close it
-
-
 def create_list():
     list = List(head=Node(random.randint(1, 100)))
     is_snake = random.randint(0, 1)  # Snake - 1, Snail - 0
 
-    if is_snake:  # Snake list
+    if is_snake :  # Snake list
         while random.randint(1, 100) != 1:  # Should create another node
             list.insert(data=random.randint(1, 100))
-        list.print_snake()
-
+     
     else:  # Snail list
         start_of_loop = None
         curr_p = list.head
@@ -87,8 +60,49 @@ def create_list():
                 temp_p = temp_p.next
 
         curr_p.next = start_of_loop  # Close loop
-        list.print_snail(start_of_loop)
+    return list
 
+def SnackorSnail(list) :
+  one_step_pointer = list.head
+  two_step_pointer = list.head
+  while(one_step_pointer and two_step_pointer and two_step_pointer.next): 
+        one_step_pointer = one_step_pointer.next
+        two_step_pointer = two_step_pointer.next.next
+        if one_step_pointer == two_step_pointer: 
+          return one_step_pointer
+  return None    
+
+def print_list(head, start_of_loop):
+    size_of_list = 0
+    if start_of_loop:
+        print("SNAIL LIST:")
+        current = head
+        reached_loop = False
+        size_of_loop = 0
+        # Go through list until reaching start of loop for the second time
+           # Go through list until reaching start of loop for the second time
+        while not (current == start_of_loop and reached_loop):
+            size_of_list += 1
+            print(current.data)
+            if current == start_of_loop:
+                reached_loop = True
+                print("Start of loop above")
+            if reached_loop:
+                size_of_loop += 1
+            current = current.next
+        print(current.data)  # Print start of loop again to close it
+        print("The size of the loop is : {0}".format(size_of_loop))
+    else:
+        print("SNAKE LIST:")
+        current = head
+        while current:
+            print(current.data)
+            current = current.next
+            size_of_list += 1
+    print("The size of the list is : {0}".format(size_of_list))
+  
 
 if __name__ == '__main__':
-    create_list()
+    list = create_list()
+    start_of_loop = SnackorSnail(list)
+    print_list(list.head, start_of_loop)
