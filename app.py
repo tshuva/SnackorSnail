@@ -69,22 +69,19 @@ def create_list():
         start_of_loop = None
         curr_p = list.head
 
-        while random.randint(1, 100) > 2:  # Should create another node
+        # create until reaching start of loop
+        while start_of_loop is None:
             list.insert(data=random.randint(1, 100))
-            curr_p = curr_p.next  # Point to last node
+            curr_p = curr_p.next
 
             # Set start of loop if not set yet
             if random.randint(1, 1000) <= 15 and start_of_loop is None:  # Is this the start of loop
                 start_of_loop = curr_p
 
-        if start_of_loop is None:  # Set random start of loop if necessary
-            start_of_loop = list.head
-            temp_p = list.head
-
-            while temp_p and start_of_loop == list.head:
-                if random.randint(0, 1):
-                    start_of_loop = temp_p
-                temp_p = temp_p.next
+        # create until reaching last node
+        while random.randint(1, 100) > 2:
+            list.insert(data=random.randint(1, 100))
+            curr_p = curr_p.next
 
         curr_p.next = start_of_loop  # Close loop
         list.print_snail(start_of_loop)
