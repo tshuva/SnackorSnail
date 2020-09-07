@@ -1,6 +1,8 @@
-
+# מיקי מאירסון 207349010
+# נעם תשובה 207576109
 
 import random
+
 
 class Node:
     """ A single node of a singly linked list """
@@ -30,14 +32,15 @@ class List:
         else:
             self.head = new_node
 
+
 def create_list():
     list = List(head=Node(random.randint(1, 100)))
     is_snake = random.randint(0, 1)  # Snake - 1, Snail - 0
 
-    if is_snake :  # Snake list
+    if is_snake:  # Snake list
         while random.randint(1, 100) != 1:  # Should create another node
             list.insert(data=random.randint(1, 100))
-     
+
     else:  # Snail list
         start_of_loop = None
         curr_p = list.head
@@ -62,47 +65,71 @@ def create_list():
         curr_p.next = start_of_loop  # Close loop
     return list
 
-def SnackorSnail(list) :
-  one_step_pointer = list.head
-  two_step_pointer = list.head
-  while(one_step_pointer and two_step_pointer and two_step_pointer.next): 
-        one_step_pointer = one_step_pointer.next
-        two_step_pointer = two_step_pointer.next.next
-        if one_step_pointer == two_step_pointer: 
-          return one_step_pointer
-  return None    
+
+def snake_or_snail(list):
+    meet = False
+    one_step = list.head
+    two_step = list.head
+    while one_step and two_step and two_step.next:
+        if not meet:  # Set first meeting - different pace
+            one_step = one_step.next
+            two_step = two_step.next.next
+            if one_step == two_step:
+                one_step = list.head
+                meet = True
+        else:  # Set second meeting - same pace
+            one_step = one_step.next
+            two_step = two_step.next
+            if one_step == two_step:
+                return one_step
+    return None
+
 
 def print_list(head, start_of_loop):
-    size_of_list = 0
+    list_size = 0
+    list_str = ''
     if start_of_loop:
         print("SNAIL LIST:")
         current = head
         reached_loop = False
-        size_of_loop = 0
+        loop_size = 0
+
         # Go through list until reaching start of loop for the second time
-           # Go through list until reaching start of loop for the second time
         while not (current == start_of_loop and reached_loop):
-            size_of_list += 1
-            print(current.data)
+            list_size += 1
+
+            # Print start of loop arrow
             if current == start_of_loop:
                 reached_loop = True
-                print("Start of loop above")
+                list_str = list_str[:-1]
+                list_str += '↱'
+
+            list_str += str(current.data) + '→'
+
+            # Print end of loop arrow
+            if current.next == start_of_loop and reached_loop:
+                list_str = list_str[:-1]
+                list_str += '↲'
+
             if reached_loop:
-                size_of_loop += 1
+                loop_size += 1
+
             current = current.next
-        print(current.data)  # Print start of loop again to close it
-        print("The size of the loop is : {0}".format(size_of_loop))
+
+        print("Loop size: {0}".format(loop_size))
     else:
         print("SNAKE LIST:")
         current = head
         while current:
-            print(current.data)
+            list_size += 1
+            list_str += str(current.data) + '→'
             current = current.next
-            size_of_list += 1
-    print("The size of the list is : {0}".format(size_of_list))
-  
+        list_str += 'null'
+    print("List size : {0}".format(list_size))
+    print(list_str)
+
 
 if __name__ == '__main__':
     list = create_list()
-    start_of_loop = SnackorSnail(list)
+    start_of_loop = snake_or_snail(list)
     print_list(list.head, start_of_loop)
