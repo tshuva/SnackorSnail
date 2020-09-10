@@ -1,8 +1,12 @@
+# מיקי מאירסון 207349010
+# נעם תשובה 207576109
+
 import random
 
 
-# A single node of a singly linked list
 class Node:
+    """ A single node of a singly linked list """
+
     def __init__(self, data=None, next_node=None):
         self.data = data
         self.next = next_node
@@ -28,33 +32,6 @@ class List:
         else:
             self.head = new_node
 
-    def print_snake(self):
-        """ print method for the snake list """
-
-        print("SNAKE LIST:")
-
-        current = self.head
-        while current:
-            print(current.data)
-            current = current.next
-
-    def print_snail(self, start_of_loop):
-        """ print method for the snail list """
-
-        print("SNAIL LIST:")
-        current = self.head
-        reached_loop = False
-
-        # Go through list until reaching start of loop for the second time
-        while not (current == start_of_loop and reached_loop):
-            print(current.data)
-            if current == start_of_loop:
-                reached_loop = True
-                print("Start of loop above")
-            current = current.next
-
-        print(current.data)  # Print start of loop again to close it
-
 
 def create_list():
     list = List(head=Node(random.randint(1, 100)))
@@ -63,7 +40,6 @@ def create_list():
     if is_snake:  # Snake list
         while random.randint(1, 100) != 1:  # Should create another node
             list.insert(data=random.randint(1, 100))
-        list.print_snake()
 
     else:  # Snail list
         start_of_loop = None
@@ -84,8 +60,73 @@ def create_list():
             curr_p = curr_p.next
 
         curr_p.next = start_of_loop  # Close loop
-        list.print_snail(start_of_loop)
+    return list
+
+
+def snake_or_snail(list):
+    meet = False
+    one_step = list.head
+    two_step = list.head
+    while one_step and two_step and two_step.next:
+        if not meet:  # Set first meeting - different pace
+            one_step = one_step.next
+            two_step = two_step.next.next
+            if one_step == two_step:
+                one_step = list.head
+                meet = True
+        else:  # Set second meeting - same pace
+            one_step = one_step.next
+            two_step = two_step.next
+            if one_step == two_step:
+                return one_step
+    return None
+
+
+def print_list(head, start_of_loop):
+    list_size = 0
+    list_str = ''
+    if start_of_loop:
+        print("SNAIL LIST:")
+        current = head
+        reached_loop = False
+        loop_size = 0
+
+        # Go through list until reaching start of loop for the second time
+        while not (current == start_of_loop and reached_loop):
+            list_size += 1
+
+            # Print start of loop arrow
+            if current == start_of_loop:
+                reached_loop = True
+                list_str = list_str[:-1]
+                list_str += '↱'
+
+            list_str += str(current.data) + '→'
+
+            # Print end of loop arrow
+            if current.next == start_of_loop and reached_loop:
+                list_str = list_str[:-1]
+                list_str += '↲'
+
+            if reached_loop:
+                loop_size += 1
+
+            current = current.next
+
+        print("Loop size: {0}".format(loop_size))
+    else:
+        print("SNAKE LIST:")
+        current = head
+        while current:
+            list_size += 1
+            list_str += str(current.data) + '→'
+            current = current.next
+        list_str += 'null'
+    print("List size : {0}".format(list_size))
+    print(list_str)
 
 
 if __name__ == '__main__':
-    create_list()
+    list = create_list()
+    start_of_loop = snake_or_snail(list)
+    print_list(list.head, start_of_loop)
