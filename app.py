@@ -35,7 +35,7 @@ def create_list():
 
     if is_snake:  # Snake list   
         list = List()
-    while random.randint(1, 100) != 1:  # Should create another node
+        while random.randint(1, 100) != 1:  # Should create another node
             list.insert(data=random.randint(1, 100))
 
     else:  # Snail list
@@ -45,7 +45,7 @@ def create_list():
 
         # create until reaching start of loop
         while start_of_loop is None:
-     list.insert(random.randint(1, 100))
+            list.insert(random.randint(1, 100))
             # Set start of loop if not set yet
             if random.randint(1, 1000) <= 15 and start_of_loop is None:  # Is this the start of loop
                 start_of_loop = curr_p
