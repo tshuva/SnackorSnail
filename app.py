@@ -34,7 +34,7 @@ def create_list():
     is_snake = random.randint(0, 1)  # Snake - 1, Snail - 0
 
     if is_snake:  # Snake list   
-        list = List(Node(random.randint(1, 100)))
+        list = List()
         while random.randint(1, 100) != 1:  # Should create another node
             list.insert(data=random.randint(1, 100))
 
