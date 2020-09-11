@@ -1,6 +1,9 @@
 # מיקי מאירסון 207349010
 # נעם תשובה 207576109
 
+# This code uses the Floyd's Cycle detection ("Hare and Tortoise") algorithm -
+# https://en.wikipedia.org/wiki/Cycle_detection
+
 import random
 
 
