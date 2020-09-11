@@ -66,13 +66,14 @@ def snake_or_snail(list):
     one_step = list.head
     two_step = list.head
     while one_step and two_step and two_step.next:
-        one_step = one_step.next
-        if not meet:  # Set first meeting - different pace  
+        if not meet:  # Set first meeting - different pace
+            one_step = one_step.next
             two_step = two_step.next.next
             if one_step == two_step:
                 one_step = list.head
                 meet = True
         else:  # Set second meeting - same pace
+            one_step = one_step.next
             two_step = two_step.next
             if one_step == two_step:
                 return one_step
