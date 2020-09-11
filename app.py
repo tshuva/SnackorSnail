@@ -1,6 +1,9 @@
 # מיקי מאירסון 207349010
 # נעם תשובה 207576109
 
+# This code uses the Floyd's Cycle detection ("Hare and Tortoise") algorithm -
+# https://en.wikipedia.org/wiki/Cycle_detection
+
 import random
 
 
@@ -16,10 +19,7 @@ class List:
     """ A Linked List class with a single head node """
 
     def __init__(self, head=None):
-        if head:
-            self.head = head
-        else:
-            self.head = None
+        self.head = head
 
     def insert(self, data):
         """ insert to end of linked list """
@@ -34,29 +34,31 @@ class List:
 
 
 def create_list():
-    list = List(head=Node(random.randint(1, 100)))
     is_snake = random.randint(0, 1)  # Snake - 1, Snail - 0
 
-    if is_snake:  # Snake list
+    if is_snake:  # Snake list   
+        list = List()
         while random.randint(1, 100) != 1:  # Should create another node
             list.insert(data=random.randint(1, 100))
 
     else:  # Snail list
+        list = List(Node(random.randint(1, 100)))
         start_of_loop = None
         curr_p = list.head
 
         # create until reaching start of loop
         while start_of_loop is None:
-            list.insert(data=random.randint(1, 100))
-            curr_p = curr_p.next
 
             # Set start of loop if not set yet
-            if random.randint(1, 1000) <= 15 and start_of_loop is None:  # Is this the start of loop
+            if random.randint(1, 1000) <= 15 and start_of_loop is None:
                 start_of_loop = curr_p
+            else:
+                list.insert(random.randint(1, 100))
+                curr_p = curr_p.next
 
         # create until reaching last node
         while random.randint(1, 100) > 2:
-            list.insert(data=random.randint(1, 100))
+            list.insert(random.randint(1, 100))
             curr_p = curr_p.next
 
         curr_p.next = start_of_loop  # Close loop
