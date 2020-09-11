@@ -45,12 +45,13 @@ def create_list():
 
         # create until reaching start of loop
         while start_of_loop is None:
-            list.insert(random.randint(1, 100))
-            curr_p = curr_p.next
 
             # Set start of loop if not set yet
-            if random.randint(1, 1000) <= 15 and start_of_loop is None:  # Is this the start of loop
+            if random.randint(1, 1000) <= 15 and start_of_loop is None:
                 start_of_loop = curr_p
+            else:
+                list.insert(random.randint(1, 100))
+                curr_p = curr_p.next
 
         # create until reaching last node
         while random.randint(1, 100) > 2:
